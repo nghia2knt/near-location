@@ -10,23 +10,20 @@ Imagine you are assigned to develop a feature similar to Zalo's "Search around h
 
 - Collection: users_locations
 
-+----------------------+-----------------------------------------+
-| Field                | Type                                    |
-+----------------------+-----------------------------------------+
-| _id                  | ObjectID  (uniqueIndex - primary key)   |
-| created_at           | DATETIME                                |
-| updated_at           | DATETIME                                |
-| deleted_at           | DATETIME  (default not exits)           |
-| user_id              | String    (uuid format) (uniqueIndex)   |
-| location             | GeoJSON   (2dsphere index)              |
-+----------------------+-----------------------------------------+
+| Field        | Type                                 |
+|--------------|--------------------------------------|
+| _id          | ObjectID (uniqueIndex - primary key) |
+| created_at   | DATETIME                             |
+| updated_at   | DATETIME                             |
+| deleted_at   | DATETIME (default not exists)        |
+| user_id      | String (uuid format) (uniqueIndex)   |
+| location     | GeoJSON (2dsphere index)             |
 
+- GeoJSON format:
 
-- GeoJSON format: 
-
-<field>: { type: <GeoJSON type> , coordinates: <coordinates> }
-<GeoJSON type>: currently support type "Point"
-<coordinates>: [ longitude, latitude ]
+    `<field>`: { type: `<GeoJSON type>`, coordinates: `<coordinates>` }
+    `<GeoJSON type>`: currently support type "Point"
+    `<coordinates>`: `[longitude, latitude]`
 
 ## Prerequisites
 
