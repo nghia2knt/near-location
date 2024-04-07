@@ -1,7 +1,6 @@
 package controller
 
 import (
-	"context"
 	"near-location/internal/form"
 	"near-location/internal/model"
 	"near-location/internal/service"
@@ -55,7 +54,6 @@ func mapUserLocationToResponse(userLocation model.UserLocation) form.UserLocatio
 }
 
 func (controller *Controller) GetLocations(c *fiber.Ctx) error {
-	ctx := context.Background()
 	pageSize, pageIdx := getPagination(c)
 	latStr := c.Query("lat")
 	lat, err := strconv.ParseFloat(latStr, 64)
@@ -76,7 +74,7 @@ func (controller *Controller) GetLocations(c *fiber.Ctx) error {
 		}
 		maxDistance = maxDistanceCV
 	}
-	result, total, err := controller.userService.FindUserLocationsNearDatapoint(ctx, model.Datapoint{
+	result, total, err := controller.userService.FindUserLocationsNearDatapoint(c.Context(), model.Datapoint{
 		Longitude: lon,
 		Latitude:  lat,
 	}, maxDistance, pageSize, pageIdx)
