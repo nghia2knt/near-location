@@ -36,18 +36,19 @@ func (m *MockUserService) EXPECT() *MockUserServiceMockRecorder {
 }
 
 // FindUserLocationsNearDatapoint mocks base method.
-func (m *MockUserService) FindUserLocationsNearDatapoint(ctx context.Context, datapoint model.Datapoint, maxDistance, limit, skip int64) ([]model.UserLocation, error) {
+func (m *MockUserService) FindUserLocationsNearDatapoint(ctx context.Context, datapoint model.Datapoint, maxDistance float64, pageSize, pageIdx int64) ([]model.UserLocation, int64, error) {
 	m.ctrl.T.Helper()
-	ret := m.ctrl.Call(m, "FindUserLocationsNearDatapoint", ctx, datapoint, maxDistance, limit, skip)
+	ret := m.ctrl.Call(m, "FindUserLocationsNearDatapoint", ctx, datapoint, maxDistance, pageSize, pageIdx)
 	ret0, _ := ret[0].([]model.UserLocation)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // FindUserLocationsNearDatapoint indicates an expected call of FindUserLocationsNearDatapoint.
-func (mr *MockUserServiceMockRecorder) FindUserLocationsNearDatapoint(ctx, datapoint, maxDistance, limit, skip interface{}) *gomock.Call {
+func (mr *MockUserServiceMockRecorder) FindUserLocationsNearDatapoint(ctx, datapoint, maxDistance, pageSize, pageIdx interface{}) *gomock.Call {
 	mr.mock.ctrl.T.Helper()
-	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserLocationsNearDatapoint", reflect.TypeOf((*MockUserService)(nil).FindUserLocationsNearDatapoint), ctx, datapoint, maxDistance, limit, skip)
+	return mr.mock.ctrl.RecordCallWithMethodType(mr.mock, "FindUserLocationsNearDatapoint", reflect.TypeOf((*MockUserService)(nil).FindUserLocationsNearDatapoint), ctx, datapoint, maxDistance, pageSize, pageIdx)
 }
 
 // MockUserRepository is a mock of UserRepository interface.
@@ -74,12 +75,13 @@ func (m *MockUserRepository) EXPECT() *MockUserRepositoryMockRecorder {
 }
 
 // FindNearUserLocation mocks base method.
-func (m *MockUserRepository) FindNearUserLocation(ctx context.Context, datapoint model.Datapoint, maxDistance, limit, skip int64) ([]model.UserLocation, error) {
+func (m *MockUserRepository) FindNearUserLocation(ctx context.Context, datapoint model.Datapoint, maxDistance float64, limit, skip int64) ([]model.UserLocation, int64, error) {
 	m.ctrl.T.Helper()
 	ret := m.ctrl.Call(m, "FindNearUserLocation", ctx, datapoint, maxDistance, limit, skip)
 	ret0, _ := ret[0].([]model.UserLocation)
-	ret1, _ := ret[1].(error)
-	return ret0, ret1
+	ret1, _ := ret[1].(int64)
+	ret2, _ := ret[2].(error)
+	return ret0, ret1, ret2
 }
 
 // FindNearUserLocation indicates an expected call of FindNearUserLocation.

@@ -32,9 +32,9 @@ type (
 
 type findUserLocationsNearDatapointRequest struct {
 	datapoint   model.Datapoint
-	maxDistance int64
-	limit       int64
-	skip        int64
+	maxDistance float64
+	pageSize    int64
+	pageIndex   int64
 }
 
 var testCases []testCase
@@ -60,8 +60,8 @@ func loadTestCase() {
 						Latitude:  10,
 					},
 					maxDistance: 1000000,
-					limit:       5,
-					skip:        0,
+					pageSize:    5,
+					pageIndex:   0,
 				},
 			},
 			mockHandler: func(t *testing.T, a arguments) (UserService, error) {
@@ -79,43 +79,7 @@ func loadTestCase() {
 						},
 					},
 				}
-				repo.EXPECT().FindNearUserLocation(ctx, a.findNear.datapoint, a.findNear.maxDistance, a.findNear.limit, a.findNear.skip).Return(findNearReturn, nil)
-				return NewUserService(repo), nil
-			},
-			exp: expect{
-				err: nil,
-			},
-		},
-
-		{
-			name: "success case, but reset limit over",
-			args: arguments{
-				findNear: findUserLocationsNearDatapointRequest{
-					datapoint: model.Datapoint{
-						Longitude: 10,
-						Latitude:  10,
-					},
-					maxDistance: 1000000,
-					limit:       5000,
-					skip:        0,
-				},
-			},
-			mockHandler: func(t *testing.T, a arguments) (UserService, error) {
-				ctx := context.Background()
-				ctl := gomock.NewController(t)
-				repo := NewMockUserRepository(ctl)
-				uuid, _ := uuid.NewUUID()
-				findNearReturn := []model.UserLocation{
-					{
-						Id:        primitive.NewObjectID(),
-						UpdatedAt: time.Now(),
-						UserId:    uuid.String(),
-						Location: model.GeoJSON{
-							Coordinates: []float64{10.000001, 10.000001},
-						},
-					},
-				}
-				repo.EXPECT().FindNearUserLocation(ctx, a.findNear.datapoint, a.findNear.maxDistance, int64(config.CV.MongoConfig.QueryMaxLimit), a.findNear.skip).Return(findNearReturn, nil)
+				repo.EXPECT().FindNearUserLocation(ctx, a.findNear.datapoint, a.findNear.maxDistance, a.findNear.pageSize, a.findNear.pageIndex*a.findNear.pageSize).Return(findNearReturn, int64(1), nil)
 				return NewUserService(repo), nil
 			},
 			exp: expect{
@@ -132,15 +96,15 @@ func loadTestCase() {
 						Latitude:  10,
 					},
 					maxDistance: 1000000,
-					limit:       5,
-					skip:        0,
+					pageSize:    5,
+					pageIndex:   0,
 				},
 			},
 			mockHandler: func(t *testing.T, a arguments) (UserService, error) {
 				ctx := context.Background()
 				ctl := gomock.NewController(t)
 				repo := NewMockUserRepository(ctl)
-				repo.EXPECT().FindNearUserLocation(ctx, a.findNear.datapoint, a.findNear.maxDistance, a.findNear.limit, a.findNear.skip).Return(nil, errors.New("failed in database"))
+				repo.EXPECT().FindNearUserLocation(ctx, a.findNear.datapoint, a.findNear.maxDistance, a.findNear.pageSize, a.findNear.pageIndex*a.findNear.pageSize).Return(nil, int64(0), errors.New("failed in database"))
 				return NewUserService(repo), nil
 			},
 			exp: expect{
@@ -161,12 +125,12 @@ func TestFindUserLocationsNearDatapoint(t *testing.T) {
 				}
 				return
 			}
-			_, err = handler.FindUserLocationsNearDatapoint(
+			_, _, err = handler.FindUserLocationsNearDatapoint(
 				ctx,
 				test.args.findNear.datapoint,
 				test.args.findNear.maxDistance,
-				test.args.findNear.limit,
-				test.args.findNear.skip)
+				test.args.findNear.pageSize,
+				test.args.findNear.pageIndex)
 			if err == nil && test.exp.err == nil {
 				return
 			}

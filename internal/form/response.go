@@ -7,6 +7,7 @@ import (
 type PaginationResponsePartial struct {
 	PageIdx  int64 `json:"pageIdx"`
 	PageSize int64 `json:"pageSize"`
+	Total    int64 `json:"total"`
 }
 
 type UserLocation struct {

@@ -5,6 +5,7 @@ import (
 	"near-location/internal/form"
 	"near-location/internal/model"
 	"near-location/internal/service"
+	"near-location/pkg/config"
 	"near-location/pkg/util"
 	"strconv"
 
@@ -28,6 +29,11 @@ func getPagination(c *fiber.Ctx) (int64, int64) {
 	if err != nil {
 		log.Warnf("invalid page size input: %s, set default 10", err)
 		pageSize = 10
+	}
+	maxLimit := int64(config.CV.QueryMaxLimit)
+	if pageSize > maxLimit {
+		log.Warnf("invalid query limit, %d larger than max limit config %d, auto set to max limit", pageSize, maxLimit)
+		pageSize = maxLimit
 	}
 	pageIdxStr := c.Query("pageIdx", "0")
 	pageIdx, err := strconv.ParseInt(pageIdxStr, 10, 64)
@@ -62,24 +68,20 @@ func (controller *Controller) GetLocations(c *fiber.Ctx) error {
 		return util.ErrBadRequest(err, "invalid longitude value")
 	}
 	maxDistanceStr := c.Query("maxDistance")
-	var maxDistance int64
+	var maxDistance float64
 	if maxDistanceStr != "" {
-		maxDistanceCV, err := strconv.ParseInt(maxDistanceStr, 10, 64)
+		maxDistanceCV, err := strconv.ParseFloat(maxDistanceStr, 64)
 		if err != nil {
 			return util.ErrBadRequest(err, "invalid max distance value")
 		}
 		maxDistance = maxDistanceCV
 	}
-
-	result, err := controller.userService.FindUserLocationsNearDatapoint(ctx, model.Datapoint{
+	result, total, err := controller.userService.FindUserLocationsNearDatapoint(ctx, model.Datapoint{
 		Longitude: lon,
 		Latitude:  lat,
 	}, maxDistance, pageSize, pageIdx)
 	if err != nil {
 		return err
-	}
-	if int64(len(result)) < pageSize {
-		pageSize = int64(len(result))
 	}
 	var listUserLocationReponse []form.UserLocation
 	for _, value := range result {
@@ -90,6 +92,7 @@ func (controller *Controller) GetLocations(c *fiber.Ctx) error {
 		Pagination: form.PaginationResponsePartial{
 			PageIdx:  pageIdx,
 			PageSize: pageSize,
+			Total:    total,
 		},
 		Data: listUserLocationReponse,
 	}

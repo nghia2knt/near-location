@@ -20,11 +20,11 @@ type constantViper struct {
 		ReplicaSetName           string   `mapstructure:"replica_set_name"`
 		MaxPoolSize              int      `mapstructure:"max_pool_size"`
 		DatabaseLocation         string   `mapstructure:"database_location"`
-		QueryMaxLimit            int      `mapstructure:"query_max_limit"`
 	} `mapstructure:"mongo_config"`
 	Collection struct {
 		UserLocation string `mapstructure:"user_location"`
 	} `mapstructure:"collection_name"`
+	QueryMaxLimit int `mapstructure:"query_max_limit"`
 }
 
 var CV = &constantViper{}

@@ -1,15 +1,13 @@
 mode: set
-near-location/internal/service/userService.go:26.54,30.2 1 1
-near-location/internal/service/userService.go:32.176,34.22 2 1
-near-location/internal/service/userService.go:34.22,37.3 2 1
-near-location/internal/service/userService.go:38.2,39.16 2 1
-near-location/internal/service/userService.go:39.16,41.3 1 1
-near-location/internal/service/userService.go:42.2,42.27 1 1
+near-location/internal/service/userService.go:23.54,27.2 1 1
+near-location/internal/service/userService.go:29.191,32.16 3 1
+near-location/internal/service/userService.go:32.16,34.3 1 1
+near-location/internal/service/userService.go:35.2,35.34 1 1
 near-location/internal/service/userService_mock.go:27.67,31.2 3 0
 near-location/internal/service/userService_mock.go:34.65,36.2 1 0
-near-location/internal/service/userService_mock.go:39.168,45.2 5 0
-near-location/internal/service/userService_mock.go:48.138,51.2 2 0
-near-location/internal/service/userService_mock.go:65.73,69.2 3 1
-near-location/internal/service/userService_mock.go:72.71,74.2 1 1
-near-location/internal/service/userService_mock.go:77.161,83.2 5 1
-near-location/internal/service/userService_mock.go:86.131,89.2 2 1
+near-location/internal/service/userService_mock.go:39.189,46.2 6 0
+near-location/internal/service/userService_mock.go:49.144,52.2 2 0
+near-location/internal/service/userService_mock.go:66.73,70.2 3 1
+near-location/internal/service/userService_mock.go:73.71,75.2 1 1
+near-location/internal/service/userService_mock.go:78.176,85.2 6 1
+near-location/internal/service/userService_mock.go:88.131,91.2 2 1

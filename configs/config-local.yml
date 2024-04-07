@@ -9,6 +9,6 @@ mongo_config:
   auth_source: ""
   replica_set_name: ""
   max_pool_size: 100
-  query_max_limit: 100
 collection_name:
   user_location: "users_locations"
+query_max_limit: 100
