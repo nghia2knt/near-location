@@ -1,0 +1,14 @@
+mongo_config:
+  address:
+    - "host.docker.internal:27017"
+  timeout: "30s"
+  database_location: "locationdb"
+  username: ""
+  password: ""
+  max_connection_idle_timeout: "300s"
+  auth_source: ""
+  replica_set_name: ""
+  max_pool_size: 100
+  query_max_limit: 100
+collection_name:
+  user_location: "users_locations"

@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data:/data/db
+
+  app:
+    build:
+      context: ./
+      dockerfile: ./Dockerfile
+    ports:
+      - "3000:3000"
+    image: app:lastest
+    depends_on:
+      - mongodb
+    restart: always
+    environment:
+      STAGE: "local"
+
+volumes:
+  mongodb_data:

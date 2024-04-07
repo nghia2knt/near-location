@@ -1,0 +1,55 @@
+{
+	"info": {
+		"_postman_id": "cd5cf9a0-0144-4083-890c-bbf1e1b9afd1",
+		"name": "near-user",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "15894796"
+	},
+	"item": [
+		{
+			"name": "locations",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "localhost:3000/locations?lat=10.850173060594742&lon=106.65060816377486&pageSize=10&pageIdx=0&maxDistance=10",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"locations"
+					],
+					"query": [
+						{
+							"key": "lat",
+							"value": "10.850173060594742",
+							"description": "latitude"
+						},
+						{
+							"key": "lon",
+							"value": "106.65060816377486",
+							"description": "longitude"
+						},
+						{
+							"key": "pageSize",
+							"value": "10",
+							"description": "page size"
+						},
+						{
+							"key": "pageIdx",
+							"value": "0",
+							"description": "page index (0-n)"
+						},
+						{
+							"key": "maxDistance",
+							"value": "10",
+							"description": "max distance meters"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
